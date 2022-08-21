@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <title>Add Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+  </head>
+  <body>
+    <h3>My Google Maps Demo</h3>
+    <!--The div element for the map -->
+    <div id="map"></div>
+
+    <!-- 
+     The `defer` attribute causes the callback to execute after the full HTML
+     document has been parsed. For non-blocking uses, avoiding race conditions,
+     and consistent behavior across browsers, consider loading using Promises
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+    -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+      defer
+    ></script>
+
+    <script>
+      function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 4,
+          center: { lat: 38.9637, lng: 35.2433 },
+        });
+
+        map.addListener("click", (e) => {
+          placeMarkerAndPanTo(e.latLng, map);
+        });
+      }
+
+      function placeMarkerAndPanTo(latLng, map) {
+       var marker = new google.maps.Marker({
+          position: latLng,
+          map: map,
+        });
+        map.panTo(latLng);
+        marker.addListener("click", () => {
+          marker.setMap(null);
+
+        console.log("markera tıklandı");
+      });
+      }
+
+      window.initMap = initMap;
+    </script>
+  </body>
+</html>
