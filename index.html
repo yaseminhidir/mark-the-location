@@ -32,18 +32,28 @@
           placeMarkerAndPanTo(e.latLng, map);
         });
       }
-
+      var markers = [];
       function placeMarkerAndPanTo(latLng, map) {
-       var marker = new google.maps.Marker({
+        var marker = new google.maps.Marker({
           position: latLng,
           map: map,
         });
+        markers.push(marker.position);
+      
+     
+        localStorage.setItem("markers", JSON.stringify(markers));
         map.panTo(latLng);
+
         marker.addListener("click", () => {
           marker.setMap(null);
+          console.log(typeof(markers));
+          markers = markers.filter(
+            (x) => !(x.lat == marker.position.lat && x.lng == marker.position.lng)
+          );
 
-        console.log("markera tıklandı");
-      });
+          localStorage.setItem("markers", JSON.stringify(markers));
+          console.log("markera tıklandı");
+        });
       }
 
       window.initMap = initMap;
